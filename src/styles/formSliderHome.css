@@ -1,0 +1,139 @@
+.admin-form{
+  margin: 15px auto;
+  max-width: 420px;
+}
+.form-container{
+  margin: auto 15px;
+  padding: 15px;
+  background-color: #e34462;
+  text-align: center;
+  color: white;
+}
+
+.form-header{
+  margin: auto;
+  display: flex;
+  justify-content: space-around;
+  width: 320px;
+  font-size: 20px;
+}
+
+.bttn-header{
+  text-align: center;
+  width: 75px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.bttn-active{
+  border-bottom: solid 2px white;
+}
+
+.form-admin{
+  display: none;
+}
+
+.form-admin-active{
+  display: block;
+}
+
+
+.label-text{
+  display: inline-block;
+  line-height: 30px;
+  font-size: 20px;
+}
+
+.updload-img-box{
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+.upload-label{
+  display: none;
+}
+
+.form-item{
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.text-input{
+  width: 200px;
+  height: 22px;
+}
+
+.text-area{
+  display: inline-flex;
+  width: 200px;
+}
+
+.dropdown{
+  width: 200px;
+  height: 25px;
+}
+
+.upload-img-bttn{
+  margin: 0;
+  margin-right: 10px;
+  display: inline-block;
+  text-align: center;
+  width: 100px;
+  height: 30px;
+}
+
+.upload-img-bttn:hover{
+  border: hidden;
+  width: 100px;
+  height: 30px;
+}
+
+.upload-img-bttn:active{
+  border: solid white 1px;
+  width: 100px;
+  height: 30px;
+}
+
+.update-button{
+  margin: 0;
+  margin-top: 20px;
+  display: inline-block;
+  width: 180px;
+  height: 35px;
+}
+
+@media (min-width: 768px) {
+
+  .sub-title{
+    font-size: 32px;
+  }
+
+}
+
+@media (min-width: 1024px) {
+
+  .sub-title{
+    margin-top: 25px;
+    font-size: 35px;
+  }
+
+  .form-container{
+    padding: 15px 20px;
+  }
+
+
+  .upload-img-name{
+    margin-left: 10px;
+  }
+
+  .upload-img-bttn{
+    margin-right: 10px;
+  }
+
+  .admin-form{
+    max-width: 500px;
+  }
+}

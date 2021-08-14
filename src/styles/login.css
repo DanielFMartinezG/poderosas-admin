@@ -1,0 +1,105 @@
+.return {
+  margin: 15px;
+  cursor: pointer;
+}
+.return .fas {
+  font-size: 20px;
+  color: #555555;
+}
+
+.banner {
+  margin-top: 50px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.banner .img {
+  width: 200px;
+  height: 150px;
+}
+.banner .title {
+  margin: 0;
+  margin-top: 10px;
+}
+
+.form {
+  background: white;
+  width: 90%;
+  max-width: 375px;
+  margin: 25px auto;
+  border-radius: 15px;
+}
+.form .box {
+  display: flex;
+  flex-direction: column;
+  padding: 15px 15px 0 15px;
+  box-shadow: 1px 2px 11px -9px grey;
+  border-radius: 20px;
+}
+.form .box .title {
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: #838080;
+  line-height: 33px;
+  margin: 0;
+}
+.form .box .inp {
+  border: white;
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  color: #9c9c9c;
+  line-height: 33px;
+  margin: 0;
+  outline: none;
+  border-radius: 20px;
+}
+.form .forgot-password {
+  text-align: right;
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  color: #c4c4c4;
+  line-height: 33px;
+  padding: 15px;
+  cursor: pointer;
+}
+
+.button {
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: center;
+}
+.login{
+  width: 200px;
+  height: 45px;
+}
+
+
+@media (min-width: 768px) {
+  .banner .img {
+    width: 300px;
+    height: 250px;
+  }
+  .form {  
+    max-width: 550px;
+    margin: 25px auto;
+  }
+  .login{
+    width: 18 0px;
+    max-width: 180px;
+    height: 60px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .banner .img {
+    width: 350px;
+    height: 320px;
+  }
+  .form {  
+    max-width: 550px;
+    margin: 25px auto;
+  }
+}
