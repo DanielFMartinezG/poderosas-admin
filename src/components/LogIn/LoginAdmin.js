@@ -17,7 +17,7 @@ const LoginAdmin = () => {
     const email = emailRef.current;
     const password = passwordRef.current;
     const credentials = {
-      'user': email.value,
+      'mail': email.value,
       'password': password.value
     };
     const response = await fetch(`${path}/admin/login`, {
