@@ -7,7 +7,8 @@ const FormMap = () => {
 
   const path = 'http://localhost:3000';
   const history = useHistory();
-  const [formUpload, serFormUpload] = useState(true);
+  //formUpload permite manipular la visualización del formulario de eliminar o subir
+  const [formUpload, setFormUpload] = useState(true);
   const [eventsDepartments, setEventsDepartments] = useState([]);
   const [events, setEvents] = useState([]);
   const departmentRef = useRef();
@@ -19,13 +20,19 @@ const FormMap = () => {
   const eventRef = useRef();
 
   const showUploadForm = () => {
-    serFormUpload(true);
+    setFormUpload(true);
   }
 
   const showDeleteForm = () => {
-    serFormUpload(false);
+    setFormUpload(false);
   }
 
+  /**
+   * Función encargada de enviar el metodo http que eliminará un evento almacenado
+   * en la base de datos, si la respuesta a la petición es Token Expired se deberá logear
+   * nuevamente el usuario
+   * @param event Id del evento a eliminar 
+   */
   async function sendDeleteRequere(event) {
     event.preventDefault();
     const token = localStorage.getItem('admin');
@@ -48,7 +55,6 @@ const FormMap = () => {
       alert('Evento eliminado con éxito.');
       window.location.reload();
     }
-
   }
 
   const getEvents = () => {
@@ -57,14 +63,17 @@ const FormMap = () => {
     setEvents(events_array[index].event);
   }
 
+  // función encargada de ejecutar el metodo http para almacenar el evento en la bd
+
   async function saveEvent(event) {
+    //evitamos el envío del formulario por defecto
     event.preventDefault();
     try {
       const token = localStorage.getItem('admin');
       const department = departmentRef.current;
       const title = titleRef.current;
       const description = descriptionRef.current;
-
+      //armamos el cuerpo del objeto que se enviará en el POST
       const body = {
         departamento: department.value,
         evento: title.value,
@@ -81,6 +90,7 @@ const FormMap = () => {
       })
       const responseJson = await response.json();
       console.log(responseJson);
+      //en caso de haber expirado el token el usuario deberá logearse nuevamente
       if (responseJson.msq === 'Token Expired') {
         alert('Expiró el tiempo de inicio de sesión');
         history.push('./login');
@@ -95,12 +105,12 @@ const FormMap = () => {
     }
   }
 
-
   //ejecutramos el useEffect una sola vez, al cargar por primera vez el componente
   useEffect(async function () {
     const response = await fetch(`${path}/map/getEvent`);
     const events = await response.json();
     const currentEvents = events.resultado;
+    //insertamos los eventos en la lista de departamentos 'events_department'
     currentEvents.forEach(event => {
       const index = events_array.findIndex(val => val.department_id === event.ID_departament);
       events_array[index].event.push({
@@ -109,7 +119,8 @@ const FormMap = () => {
         event_descritpion: event.descripcion,
       });
     });
-    //TODO debo tomar los valores de la API
+    /*creamos un arreglo que almacene unicamente los departamentos con eventos, utilizaremos esta
+    lista para el dropdown del formulario de eliminar eventos*/
     let departmentWithEvents = [];
     for (let i = 0; i < events_array.length; i++) {
       if (events_array[i].event.length > 0) {
@@ -119,6 +130,8 @@ const FormMap = () => {
         });
       }
     }
+    /* asignamos los eventos a sus estados respectivos, igualmente, asignamos un evento por defecto 
+    que se visualizará seleccionado en el formulario de eliminar eventos */
     if(departmentWithEvents.length>0){
       let initialEvents = [];
       const index = events_array.findIndex(value => value.department_id === departmentWithEvents[0].department_id);

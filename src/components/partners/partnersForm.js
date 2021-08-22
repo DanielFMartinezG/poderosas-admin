@@ -7,6 +7,7 @@ const PartnersForm = () => {
 
   const path = 'http://localhost:3000';
   const history = useHistory();
+  //utilizamos imgText para mostrar el nombre de la imagen que se está subiendo al formulario 
   const [imgText, setImgText] = useState('sube una imagen');
   const [formUpload, serFormUpload] = useState(true);
   const [dropdownValues, setDropdownValues] = useState([]);
@@ -14,6 +15,8 @@ const PartnersForm = () => {
   const imgPartnerRef = useRef();
   const dropdownRef = useRef();
 
+  /* función encargada de ejecutar el almacenamiento de la imagen a 
+  firebase storage y ejecutar el metodo post para guardar la noticia */
   async function saveFirebaseImg(event) {
     event.preventDefault();
     const file = imgPartnerRef.current.files[0];
@@ -32,9 +35,15 @@ const PartnersForm = () => {
     }
   }
 
+  /**
+   * Función encargada de ejecutar el metodo POST para almacenar el partner
+   * @param {*} urlImg url de la imagen a almacentar
+   * @param {*} partner nombre de la empresa
+   */
   async function sendPostRequire(urlImg, partner) {
     try {
       const token = localStorage.getItem('admin');
+      //armamos el objetoa enviar con la info de la empresa
       const body = {
         name: partner,
         url: urlImg,
@@ -48,6 +57,7 @@ const PartnersForm = () => {
         body: JSON.stringify(body)
       })
       const responseJson = await response.json();
+      //si la respuesta es Token Expired redireccionamos al usuario nuevamente al login
       if (responseJson.msq === 'Token Expired') {
         alert('Expiró el tiempo de inicio de sesión');
         history.push('./login');
@@ -60,6 +70,11 @@ const PartnersForm = () => {
     }
   }
 
+  /**
+ * función encargada de implementar el metodo DELETE para eliminar una empresa
+ * almacenada en la base de datos
+ * @param event objeto tipo evento
+ */
   async function sendDeleteRequere(event) {
     event.preventDefault();
     const token = localStorage.getItem('admin');
@@ -84,6 +99,8 @@ const PartnersForm = () => {
     }
   }
 
+  /*función encargada de obtener el nombre de la imagen subida e igualmente
+  controlar el tamaño de la imagen subida*/
   const changeImgText = (event) => {
     event.preventDefault();
     if (imgPartnerRef.current.files.length > 0 &&
@@ -102,6 +119,8 @@ const PartnersForm = () => {
 
   //ejecutramos el useEffect una sola vez, al cargar por primera vez el componente
   useEffect(async function () {
+    /*obtenemos las empresas almacenadas actualmente en la base de datos y procedemmos
+    a almacenarlas en su respectivo estado */
     const response = await fetch(`${path}/partnerCompanies/getCompanies`);
     const jsonResponse = await response.json();
     const partner = jsonResponse.resultado;

@@ -1,9 +1,10 @@
+//credenciales de conexión a Firebase Storage
 export default{
-  apiKey: "AIzaSyAX8ypK3mP-HpXqpOp5Pe0c73Y_9Al--YA",
-  authDomain: "poderosasfirebase.firebaseapp.com",
-  projectId: "poderosasfirebase",
-  storageBucket: "poderosasfirebase.appspot.com",
-  messagingSenderId: "118899926399",
-  appId: "1:118899926399:web:e5572c800f1c478829664a",
-  measurementId: "G-ZT1YQGJGZB"
+  apiKey: "AIzaSyAxPhOcfPNlJ8AkkuSVOn5FTeAzi0qA-OM",
+  authDomain: "poderosasweb.firebaseapp.com",
+  projectId: "poderosasweb",
+  storageBucket: "poderosasweb.appspot.com",
+  messagingSenderId: "313217761701",
+  appId: "1:313217761701:web:731d2fdafe61be638f684c",
+  measurementId: "G-7P579T0DDG"
 }

@@ -7,12 +7,15 @@ const SliderAboutUsForm = () => {
 
   const path = 'http://localhost:3000';
   const history = useHistory();
+  //utilizamos imgText para mostrar el nombre de la imagen que se está subiendo al formulario 
   const [imgText, setImgText] = useState('sube una imagen');
   const [formUpload, serFormUpload] = useState(true);
   const [dropdownValues, setDropdownValues] = useState([]);
   const imgSlideRef = useRef();
   const dropdownRef = useRef();
 
+  /* función encargada de ejecutar el almacenamiento de la imagen a 
+  firebase storage y ejecutar el metodo post para guardar la noticia */
   async function saveFirebaseImg(event) {
     event.preventDefault();
     const file = imgSlideRef.current.files[0];
@@ -28,9 +31,14 @@ const SliderAboutUsForm = () => {
     }
   }
 
+  /**
+   * Función encargada de ejecutar el metodo POST para almacenar la imagen
+   * @param {*} urlImg url de la imagen almacenada en FirebaseStorage
+   */
   async function sendPostRequire(urlImg) {
     try {
       const token = localStorage.getItem('admin');
+      //armamos el objetoa enviar con la imagen
       const body = {
         url: urlImg,
       }
@@ -43,7 +51,7 @@ const SliderAboutUsForm = () => {
         body: JSON.stringify(body)
       })
       const responseJson = await response.json();
-      console.log(responseJson);
+      //si la respuesta es Token Expired redireccionamos al usuario nuevamente al login
       if (responseJson.msq === 'Token Expired') {
         alert('Expiró el tiempo de inicio de sesión');
         history.push('./login');
@@ -56,6 +64,8 @@ const SliderAboutUsForm = () => {
     }
   }
 
+  /*función encargada de obtener el nombre de la imagen subida e igualmente
+  controlar el tamaño de la imagen subida*/
   const changeImgText = (event) => {
     event.preventDefault();
     if (imgSlideRef.current.files.length > 0 &&
@@ -72,7 +82,12 @@ const SliderAboutUsForm = () => {
     serFormUpload(false);
   }
 
-  async function sendDeleteRequere (event){
+  /**
+   * función encargada de implementar el metodo DELETE para eliminar una imagen 
+   * almacenada en la base de datos
+   * @param event objeto tipo evento
+   */
+  async function sendDeleteRequere(event) {
     event.preventDefault();
     const token = localStorage.getItem('admin');
     let dropdown = dropdownRef.current;
@@ -97,7 +112,9 @@ const SliderAboutUsForm = () => {
   }
 
   //ejecutramos el useEffect una sola vez, al cargar por primera vez el componente
-  useEffect(async function(){
+  useEffect(async function () {
+    /*obtenemos las imagenes almacenadas actualmente en la base de datos y procedemmos
+    a guardarlas en su respectivo estado */
     const response = await fetch(`${path}/aboutus/slider/getImages`);
     const jsonResponse = await response.json();
     const imgs = jsonResponse.resultado;

@@ -13,6 +13,8 @@ const LoginAdmin = () => {
   const passwordRef = useRef();
   const history = useHistory();
 
+  /* Función encargada de realizar el proceso de login para acceder a los formularios
+  la función permite redirigir al home una vez el login sea exitoso */
   async function login() {
     const email = emailRef.current;
     const password = passwordRef.current;
@@ -29,6 +31,7 @@ const LoginAdmin = () => {
     })
     const responseJson = await response.json();
 
+    //almacenamos el token en el Storage y redireccionamos al home
     if(responseJson.msq === 'Inicio correcto'){
       localStorage.setItem('admin', responseJson.token)
       history.push('./home');

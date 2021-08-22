@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom';
 const StaffForm = () => {
 
   const path = 'http://localhost:3000';
+  //utilizamos imgText para mostrar el nombre de la imagen que se está subiendo al formulario 
   const history = useHistory();
   const [imgText, setImgText] = useState('sube una imagen');
   const [formUpload, serFormUpload] = useState(true);
@@ -13,9 +14,11 @@ const StaffForm = () => {
   const imgStaffRef = useRef();
   const rolRef = useRef();
   const nameRef = useRef();
-  
+
   const dropdownStaffRef = useRef();
 
+  /* función encargada de ejecutar el almacenamiento de la imagen a 
+  firebase storage y ejecutar el metodo post para guardar el staff */
   async function saveFirebaseImg(event) {
     event.preventDefault();
     const file = imgStaffRef.current.files[0];
@@ -28,7 +31,7 @@ const StaffForm = () => {
       alert('Actualización en proceso...');
       saveImg('poderosas-staff', file, (value) => {
         console.log(`Img URL: ${value}`);
-        //TODO, una vez obtenida la url terminar de envíar el post
+        // una vez obtenida la url terminamos de envíar el post
         sendPostRequire(value, rol.value, name.value);
       });
     } else {
@@ -36,9 +39,16 @@ const StaffForm = () => {
     }
   }
 
+  /**
+   * Función encargada de ejecutar el metodo POST para almacenar el miembro del equipo
+   * @param {*} urlImg url de la imagen almacenada en FirebaseStorage
+   * @param {*} rol rol del miembro del equipo
+   * @param {*} name nombre el integrante
+   */
   async function sendPostRequire(urlImg, rol, name) {
     try {
       const token = localStorage.getItem('admin');
+      //armamos el objetoa enviar con la info del miembro
       const body = {
         img: urlImg,
         name: name,
@@ -53,7 +63,7 @@ const StaffForm = () => {
         body: JSON.stringify(body)
       })
       const responseJson = await response.json();
-      console.log(responseJson);
+      //si la respuesta es Token Expired redireccionamos al usuario nuevamente al login
       if (responseJson.msq === 'Token Expired') {
         alert('Expiró el tiempo de inicio de sesión');
         history.push('./login');
@@ -66,7 +76,8 @@ const StaffForm = () => {
     }
   }
 
-
+  /*función encargada de obtener el nombre de la imagen subida e igualmente
+  controlar el tamaño de la imagen subida*/
   const changeImgText = (event) => {
     event.preventDefault();
     if (imgStaffRef.current.files.length > 0 &&
@@ -83,7 +94,12 @@ const StaffForm = () => {
     serFormUpload(false);
   }
 
-  async function sendDeleteRequere (event){
+  /**
+   * función encargada de implementar el metodo DELETE para eliminar un miembro del equipo
+   * almacenada en la base de datos
+   * @param event objeto tipo evento
+   */
+  async function sendDeleteRequere(event) {
     event.preventDefault();
     const token = localStorage.getItem('admin');
     let dropdown = dropdownStaffRef.current;
@@ -107,8 +123,10 @@ const StaffForm = () => {
     window.location.reload();
   }
 
-  //ejecutramos el useEffect una sola vez, al cargar por primera vez el componente
-  useEffect(async function(){
+  //ejecutamos el useEffect una sola vez, al cargar por primera vez el componente
+  useEffect(async function () {
+    /*obtenemos el staff almacenado actualmente en la base de datos y procedemmos
+    a guardarlas en su respectivo estado */
     const response = await fetch(`${path}/staff/getStaff`);
     const jsonResponse = await response.json();
     const slideItems = jsonResponse.resultado;
